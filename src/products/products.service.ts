@@ -20,7 +20,6 @@ export class ProductsService {
   }
 
   public create(productData: Omit<Product, 'id'>): Product {
-    console.log(productData);
     const newProduct = { ...productData, id: uuidv4() };
     db.products.push(newProduct);
     return newProduct;
