@@ -9,8 +9,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CreateOrderDTO } from 'src/products/dtos/create-order.dto';
-import { UpdateOrderDTO } from 'src/products/dtos/update-order.dto';
+import { CreateOrderDTO } from './dtos/create-order.dto';
+import { UpdateOrderDTO } from './dtos/update-order.dto';
 import { OrdersService } from './orders.service';
 
 @Controller('orders')
@@ -29,13 +29,13 @@ export class OrdersController {
     return order;
   }
 
-  @Delete('/id')
+  @Delete('/:id')
   deletebyId(@Param('id', new ParseUUIDPipe()) id: string) {
-    this.ordersService.deleteById(id);
-
     if (!this.ordersService.getById(id)) {
       throw new NotFoundException('order not found');
     }
+
+    this.ordersService.deleteById(id);
     return { success: true };
   }
 

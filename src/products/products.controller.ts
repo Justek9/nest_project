@@ -33,9 +33,10 @@ export class ProductsController {
 
   @Delete('/:id')
   deleteById(@Param('id', new ParseUUIDPipe()) id: string) {
-    this.productsService.deleteById(id);
-    if (!this.productsService.getById(id))
+    if (!this.productsService.getById(id)) {
       throw new NotFoundException('Product not found');
+    }
+    this.productsService.deleteById(id);
     return { success: true };
   }
 
@@ -44,14 +45,15 @@ export class ProductsController {
     return this.productsService.create(productsData);
   }
 
-  @Put('/id')
-  updateById(
+  @Put('/:id')
+  update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() productData: UpdateProductDTO,
   ) {
     if (!this.productsService.getById(id))
       throw new NotFoundException('Product not found');
+
     this.productsService.updateById(id, productData);
-    return { succes: true };
+    return { success: true };
   }
 }
