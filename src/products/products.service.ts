@@ -6,6 +6,17 @@ import { Product } from '@prisma/client';
 export class ProductsService {
   constructor(private prismaService: PrismaService) {}
 
+  public getAllExtended(): Promise<Product[]> {
+    return this.prismaService.product.findMany({ include: { order: true } });
+  }
+
+  public getByIdExtended(id: Product['id']): Promise<Product | null> {
+    return this.prismaService.product.findUnique({
+      where: { id },
+      include: { order: true },
+    });
+  }
+
   public getAll(): Promise<Product[]> {
     return this.prismaService.product.findMany();
   }
